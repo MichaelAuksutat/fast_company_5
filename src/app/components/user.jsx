@@ -5,6 +5,7 @@ import BookMark from "./bookmark";
 const User = ({
     _id,
     name,
+    picture,
     qualities,
     profession,
     completedMeetings,
@@ -15,7 +16,7 @@ const User = ({
 }) => {
     return (
         <tr>
-            <td>{name}</td>
+            <td>{name} <img src={picture} alt="Logo" width="80" height="50" /></td>
             <td>
                 {qualities.map((qual) => (
                     <Quality {...qual} key={qual._id} />
@@ -44,6 +45,7 @@ const User = ({
 User.propTypes = {
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
     qualities: PropTypes.array,
     profession: PropTypes.object.isRequired,
     completedMeetings: PropTypes.number.isRequired,
