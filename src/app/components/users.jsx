@@ -10,11 +10,14 @@ import SearchStatus from "./searchStatus";
 const Users = ({ users: allUsers, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
+    const [qualities, setQualities] = useState();
     const [selectProf, setSelectedProf] = useState();
+    const [selectQuality, setSelectedQuality] = useState();
 
     const pageSize = 4;
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
+        api.qualities.fetchAll().then((data) => setQualities(data));
     }, []);
     useEffect(() => {
         setCurrentPage(1);
@@ -22,26 +25,47 @@ const Users = ({ users: allUsers, ...rest }) => {
 
     const handeleProfessionSelect = (item) => {
         setSelectedProf(item);
+        selectQuality();
     };
-    console.log(professions);
+    const handeleQualitySelect = (item) => {
+        setSelectedQuality(item);
+    };
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
-        console.log("page: ", pageIndex);
     };
-    const fileredUsers = selectProf
-        ? allUsers.filter((user) => user.profession === selectProf)
-        : allUsers;
+
+    // const fileredUsers = selectProf
+    //     ? allUsers.filter(user => (user.profession._id === selectProf._id) && (user.profession.name === selectProf.name))
+    //     : allUsers;
+
+    function checkQuality(user, checkquality) {
+        return (user.qualities.filter(quality => quality.name === checkquality.name).length > 0);
+    }
+    function getFilteredUsers() {
+        let users = allUsers;
+        if (selectProf) {
+            users = users.filter(user => (user.profession._id === selectProf._id) && (user.profession.name === selectProf.name));
+        };
+        if (selectQuality) {
+            users = users.filter(user => checkQuality(user, selectQuality));
+        };
+        return users;
+    };
+    const fileredUsers = getFilteredUsers();
     const count = fileredUsers.length;
     const usersCrop = paginate(fileredUsers, currentPage, pageSize);
-    const clearFilter = () => {
+    const clearProfessionFilter = () => {
         setSelectedProf();
+    };
+    const clearQualityFilter = () => {
+        setSelectedQuality();
     };
     return (
         <div className="d-flex">
             {professions && (
                 <div className="d-flex flex-column flex-shrink-0 p-3">
                     <GroupList
-                        sectetItem={selectProf}
+                        selectedItem={selectProf}
                         items={professions}
 
                         onItemSelect={handeleProfessionSelect}
@@ -49,7 +73,25 @@ const Users = ({ users: allUsers, ...rest }) => {
 
                     <button
                         className="btn btn-secondary mt-2"
-                        onClick={clearFilter}
+                        onClick={clearProfessionFilter}
+                    >
+                        {" "}
+                        Очистить
+                    </button>
+                </div>
+            )}
+            {qualities && (
+                <div className="d-flex flex-column flex-shrink-0 p-3">
+                    <GroupList
+                        selectedItem={selectQuality}
+                        items={qualities}
+
+                        onItemSelect={handeleQualitySelect}
+                    />
+
+                    <button
+                        className="btn btn-secondary mt-2"
+                        onClick={clearQualityFilter}
                     >
                         {" "}
                         Очистить

@@ -1,38 +1,16 @@
-import { professionsObject as professions } from "./professions.api";
-const qualities = {
-    tedious: {
-        _id: "67rdca3eeb7f6fgeed471198",
-        name: "Нудила",
-        color: "primary"
-    },
-    strange: {
-        _id: "67rdca3eeb7f6fgeed471100",
-        name: "Странный",
-        color: "secondary"
-    },
-    buller: {
-        _id: "67rdca3eeb7f6fgeed4711012",
-        name: "Троль",
-        color: "success"
-    },
-    alcoholic: {
-        _id: "67rdca3eeb7f6fgeed471101",
-        name: "Алкоголик",
-        color: "danger"
-    },
-    handsome: {
-        _id: "67rdca3eeb7f6fgeed471102",
-        name: "Красавчик",
-        color: "info"
-    },
-    uncertain: {
-        _id: "67rdca3eeb7f6fgeed471103",
-        name: "Неуверенный",
-        color: "dark"
-    }
-};
+import { professions } from "./professions.api";
+import { qualities } from "./qualities.api";
 
-const users = [
+export const users = [
+    {
+        _id: "67rdcf3eeb7f6fgeed471815",
+        name: "Artur",
+        profession: professions.actor,
+        qualities: [qualities.tedious, qualities.alcoholic, qualities.strange],
+        completedMeetings: 36,
+        rate: 2.5,
+        bookmark: false
+    },
     {
         _id: "67rdca3eeb7f6fgeed471815",
         name: "Джон Дориан",
@@ -140,6 +118,15 @@ const users = [
         completedMeetings: 434,
         rate: 5,
         bookmark: false
+    },
+    {
+        _id: "67rdca3eebff6fgeed47181r",
+        name: "Tina",
+        profession: professions.bitch,
+        qualities: [qualities.handsome],
+        completedMeetings: 434,
+        rate: 5,
+        bookmark: false
     }
 ];
 
@@ -147,7 +134,7 @@ const fetchAll = () =>
     new Promise((resolve) => {
         window.setTimeout(function () {
             resolve(users);
-        }, 2000);
+        }, 8000);
     });
 
 export default {

@@ -6,9 +6,8 @@ const GroupList = ({
     valueProperty,
     contentProperty,
     onItemSelect,
-    sectetItem
+    selectedItem
 }) => {
-    console.log(Object.keys(items));
     return (
         <ul className="list-group">
             {Object.keys(items).map((item) => (
@@ -16,7 +15,7 @@ const GroupList = ({
                     key={items[item][valueProperty]}
                     className={
                         "list-group-item" +
-                        (items[item] === sectetItem ? " active" : "")
+                        (items[item] === selectedItem ? " active" : "")
                     }
                     onClick={() => onItemSelect(items[item])}
                     role="button"
@@ -36,7 +35,7 @@ GroupList.propTypes = {
     valueProperty: PropTypes.string.isRequired,
     contentProperty: PropTypes.string.isRequired,
     onItemSelect: PropTypes.func.isRequired,
-    sectetItem: PropTypes.object.isRequired
+    selectedItem: PropTypes.object.isRequired
 };
 
 export default GroupList;
